@@ -48,7 +48,7 @@ class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
-        self.birsthday = None
+        self.birthday = None
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
