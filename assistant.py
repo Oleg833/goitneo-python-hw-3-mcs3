@@ -32,8 +32,8 @@ def validate_args(args):
 
 @input_error
 def add_contact(args, book):
-    if not validate_args(args):
-        raise ValueError
+    # if not validate_args(args):
+    #     raise ValueError
     name, phone = args
     contact = book.find(name)
     if contact:
@@ -72,8 +72,7 @@ def show_all(book):
     if not book.data:
         raise Exception
     for name, record in book.data.items():
-        formatted_list.append(f"{name}: {record}\n")
-
+        formatted_list.append(f"{name} : {record}\n")
     return "".join(formatted_list)
 
 

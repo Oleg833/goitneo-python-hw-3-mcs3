@@ -1,5 +1,5 @@
-from collections import UserDict
 import pickle
+from collections import UserDict
 from datetime import datetime, timedelta
 
 
@@ -16,14 +16,14 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(self, phone_number):
-        if not self.is_phone(phone_number):
+    def __init__(self, value):
+        if not self.is_phone(value):
             raise ValueError("Invalid phone value")
-        self.value = phone_number
+        self.value = value
 
     @staticmethod
-    def is_phone(phone_number):
-        return len(phone_number) == 10 and phone_number.isdigit()
+    def is_phone(value):
+        return len(value) == 10 and value.isdigit()
 
 
 class Birthday(Field):
@@ -78,7 +78,7 @@ class Record:
 
     def __str__(self):
         return f"Contact name: {self.name.value}, \
-          phones: {'; '.join(p.value for p in self.phones)}, \
+        phones: {'; '.join(p.value for p in self.phones)}, \
         birthday: {self.birthday.value if self.birthday else 'Unknown Date'}"
 
 
@@ -139,19 +139,15 @@ class AddressBook(UserDict):
 
         for key, value in week_days.items():
             if value != []:
-                birthday_info.append(f"{key}: ', '.join({value})\n")
+                birthday_info.append(f"{key}: {', '.join(value)}\n")
         if birthday_info:
-            return birthday_info
+            return "".join(birthday_info)
         else:
             return "Next week birthays not found"
 
 
 if __name__ == "__main__":
     book = AddressBook()
-
-    # Виведення всіх записів у книзі
-    for name, record in book.data.items():
-        print("record:", name, record)
 
     # Створення запису для John
     john_record = Record("John")
@@ -176,11 +172,14 @@ if __name__ == "__main__":
     john = book.find("John")
     john.edit_phone("1234567890", "1112223333")
 
+    jane = book.find("Jane")
+
     print(john)  # Виведення: Contact name: John, phones: 1112223333; 5555555555
 
     # Пошук конкретного телефону у записі John
     found_phone = john.find_phone("5555555555")
-    print(f"{john.name}: {found_phone}")  # Виведення: 5555555555
+    print(f"{john.name}: {found_phone}: {john.birthday}")
+    print(f"{jane.name}: {found_phone}: {jane.birthday}")
 
     print(book.get_birthdays_per_week())
 
