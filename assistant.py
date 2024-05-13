@@ -35,9 +35,9 @@ def add_contact(args, book):
     # if not validate_args(args):
     #     raise ValueError
     name, phone = args
-    contact = book.find(name)
-    if contact:
-        contact.add_phone(phone)
+    record = book.find(name)
+    if record:
+        record.add_phone(phone)
         return "phone added successfully"
     record = Record(name)
     record.add_phone(phone)
